@@ -3,39 +3,70 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        * {
-            -webkit-user-select: auto;
-        }
-    </style>
-    <script>
-        while (true) {
-            var word = prompt("请输入文末关键词");
-            if (word == '120') {
-                alert('《120°黑》广播剧\n https: //wwr.lanzoui.com/i2gybpj4h7c ')
-            } else if (word == '一号线') {
-                alert('《北京地铁一号线》广播剧\nhttps://www.lanzoui.com/b02cifkib')
-            } else if (word == '别来无恙') {
-                alert('《别来无恙》广播剧\nhttps: //pan.xunlei.com/s/VMlZCO2NDJniy3Le4jfcVcnZA1')
-            } else if (word == '覆盖') {
-                alert('《标记覆盖》广播剧\nhttps: //www.lanzoui.com/b02chzyri')
-            } else if (word == '对不起') {
-                alert('《对不起，你要再死一次》广播剧\nhttps: //www.lanzoui.com/b02cionza')
-            } else if (word == '公园') {
-                alert('《公园之夜》广播剧\nhttps: //wwr.lanzoui.com/iM2Foqf081a')
-            } else {
-                alert('关键词在文末吖')
-            }
-        }
-    </script>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="./style.css">
+
 </head>
 
 <body>
+    <h1>在线机器人</h1>
+    <div class="container">
+        <div class="message">
+            <div class="robot clearfix">
+                <a href="#" class='f_l'>吖</a>
+                <p class='f_l'>
+                    请发送关键词
+                </p>
+            </div>
+        </div>
+        <div class="control">
+            <form action="./chatting.php" method="get">
+                <input name='keyWord' type="text" class='inputBox f_l'>
+                <input type="button" class='sendButton f_r' value='发 送'>
+            </form>
+        </div>
+    </div>
+    <div id='hidden_self' class="self clearfix" style='display:none'>
+        <a href="#" class="f_r">me</a>
+        <p class="f_r">123213</p>
 
+    </div>
 </body>
 
 </html>
+
+<script src="lib/js/jquery-1.12.4.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="lib/js/bootstrap.min.js"></script>
+<script src="./js/jquery.min-1.72.js"></script>
+
+<script>
+    $(function() {
+        $(".sendButton").click(function() {
+            var $cloneSelf = $(".self").first().clone();
+            $('.message').append($cloneSelf);
+            $cloneSelf.show();
+            var xhr = new XMLHttpRequest();
+            xhr.open('get', 'chatting.php?name=' + $('.inputBox').val());
+            xhr.onload = function() {
+                    console.log(xhr.responseText);
+                    var $cloneRobot = $('.robot').first().clone();
+                    $cloneRobot.appendTo('.message');
+                    $cloneRobot.find('p').html(xhr.responseText);
+                    // $cloneRobot.find('p').html('整理不易，取资源点点文末小卡片吖，谢谢');
+                    /* var box = document.querySelector(".box");
+                    var p = document.createElement('p');
+                    p.innerHTML = "最新选项";
+                     box.parentNode.insertBefore(p, box.nextSibling); */
+
+                    // var robot = document.querySelector("span");
+                    // var a = document.createElement('a');
+                    // a.innerHTML = xhr.responseText;
+                    // robot.parentNode.insertBefore(a, robot);
+
+                }
+               
+            xhr.send(null);
+        })
+    })
+</script>
