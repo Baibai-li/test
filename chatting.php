@@ -26,9 +26,9 @@
 	if(array_key_exists($starName,$linkArr)){
 
 		$link = $linkArr[$starName];
-		echo '<a>'
+		echo '<a>';
 		echo $link['link'];
-		echo '</a>'
+		echo '</a>';
 		echo '<br>';
 		echo '整理不易';
 	}else{
