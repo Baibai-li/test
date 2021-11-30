@@ -22,10 +22,13 @@
         <div class="control">
             <form action="./chatting.php" method="get">
                 <input name='keyWord' type="text" class='inputBox f_l'>
+                <!-- 表单元素需要提交数据 使用name属性 进行标记 name属性的值可以随便起，但是尽可能起的有意义 -->
                 <input type="button" class='sendButton f_r' value='发 送'>
             </form>
         </div>
     </div>
+
+    <!-- 隐藏的 自己聊天框 -->
     <div id='hidden_self' class="self clearfix" style='display:none'>
         <a href="#" class="f_r">me</a>
         <p class="f_r">123213</p>
@@ -38,18 +41,33 @@
 <script src="lib/js/jquery-1.12.4.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="lib/js/bootstrap.min.js"></script>
+
+<!-- 导入jQuery   -->
 <script src="./js/jquery.min-1.72.js"></script>
 
 <script>
+    // 自己的js代码
     $(function() {
         $(".sendButton").click(function() {
+            // 创建自己的聊天框
+            // 每次克隆第一个
             var $cloneSelf = $(".self").first().clone();
+            // 添加到容器中
             $('.message').append($cloneSelf);
             $cloneSelf.show();
+            // 获取输入框的内容 设置给克隆的 元素内部的 p标签
+            $cloneSelf.find('p').html($('.inputBox').val());
+
+            // ajax请求
+            //1.创建对象
             var xhr = new XMLHttpRequest();
+            //2.设置请求行(get请求数据写在url后面)
             xhr.open('get', 'chatting.php?name=' + $('.inputBox').val());
+            //3.设置请求头(get请求可以省略,post不发送数据也可以省略)
+            //3.5注册回调函数
             xhr.onload = function() {
                     console.log(xhr.responseText);
+                    // 克隆机器人的聊天框
                     var $cloneRobot = $('.robot').first().clone();
                     $cloneRobot.appendTo('.message');
                     $cloneRobot.find('p').html(xhr.responseText);
@@ -65,7 +83,7 @@
                     // robot.parentNode.insertBefore(a, robot);
 
                 }
-               
+                //4.请求主体发送(get请求为空，或者写null，post请求数据写在这里，如果没有数据，直接为空或者写null)
             xhr.send(null);
         })
     })
